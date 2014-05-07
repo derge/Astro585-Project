@@ -1,4 +1,3 @@
-Astro585-Project
+Transiting Planet Candidates Search for Kepler Data
 ================
 
-Search for Transiting Planet Candidates in Kepler Data
