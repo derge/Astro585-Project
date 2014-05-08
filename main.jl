@@ -11,7 +11,7 @@ lcs = koi[:get_light_curves](short_cadence=false)
 n_lcs = length(lcs)
 
 #array to store finalised data
-time, flux, ferr, quality = [], [], [], []
+time, flux, quality = [], [], []
 
 for i=1:n
    hdu = lcs[i][:open]();
@@ -32,5 +32,19 @@ for i=1:n
        end
    end
 
+  #Net N_good and N_bad, min of good points needed to qualify as a segment and bad points to qualify as a segment break
+  N_good = 300;
+  N_bad = 5;
 
+  seg_idx = get_segment(N_good,N_bad,idx_good);
+
+ #Normalize segments before combining and plotting them
+
+  n_seg = length(seg_idx);
+  for i=1:n_seg
+          mean_flux = mean(sap_flux_temp[seg_idx[i]]);
+          sap_flux_temp[seg_idx[i]]= (sap_flux_temp[seg_idx[i]]-mean_flux)/mean_flux;		# normalize each segment
+          append!(time,time_temp[seg_idx[i]]);
+          append!(flux,sap_flux_temp[seg_idx[i]]);
+  end
 
