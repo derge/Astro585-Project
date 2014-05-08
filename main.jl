@@ -19,7 +19,8 @@ for i=1:n
    time_temp = convert(Array{Float64,1},hdu_data[:field]("TIME"));                 #Time
    sap_flux_temp = convert(Array{Float64,1},hdu_data[:field]("SAP_FLUX"));         #Flux
    sap_flux_temp_err = convert(Array{Float64,1},hdu_data[:field]("SAP_FLUX_ERR")); #Flux_Error
-
+   @assert(length(time_temp) = length(sap_flux_temp));
+   @assert(length(sap_flux_temp) = length(sap_flux_err));
    sap_quality = convert(Array{Float64,1},hdu_data[:field]("SAP_QUALITY"));        #Quality
 
    idx_good = [];               #an array to store the indices of good data points
@@ -45,7 +46,8 @@ for i=1:n
         mean_flux = mean(sap_flux_temp[seg_idx[i]]);
         sap_flux_temp[seg_idx[i]]= (sap_flux_temp[seg_idx[i]]-mean_flux)/mean_flux;		# normalize each segment
         append!(time,time_temp[seg_idx[i]]);
-          append!(flux,sap_flux_temp[seg_idx[i]]);
+        append!(flux,sap_flux_temp[seg_idx[i]]);
+        @assert(length(time)=length(flux));
   end
 
 
