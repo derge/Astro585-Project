@@ -25,7 +25,7 @@ for i=1:n
    idx_good = [];               #an array to store the indices of good data points
    n_time = length(time_temp)
    for i = 1:n_time
-       if (is(sap_flux_temp[i],NaN) || is(sap_flux[i],Inf) || is(time_temp[i],NaN)|| is(time_temp[i],Inf) || sap_quality[i]!=0 || in(floor(mjd[i]),first_day_quarter))
+       if (is(sap_flux_temp[i],NaN) || is(sap_flux_temp[i],Inf) || is(time_temp[i],NaN)|| is(time_temp[i],Inf) || sap_quality[i]!=0 || in(floor(mjd[i]),first_day_quarter))
 
        else
         append!(idx_good,[i])
@@ -38,13 +38,16 @@ for i=1:n
 
   seg_idx = get_segment(N_good,N_bad,idx_good);
 
- #Normalize segments before combining and plotting them
-
+  #Normalize segments before combining and plotting them
   n_seg = length(seg_idx);
+
   for i=1:n_seg
-          mean_flux = mean(sap_flux_temp[seg_idx[i]]);
-          sap_flux_temp[seg_idx[i]]= (sap_flux_temp[seg_idx[i]]-mean_flux)/mean_flux;		# normalize each segment
-          append!(time,time_temp[seg_idx[i]]);
+        mean_flux = mean(sap_flux_temp[seg_idx[i]]);
+        sap_flux_temp[seg_idx[i]]= (sap_flux_temp[seg_idx[i]]-mean_flux)/mean_flux;		# normalize each segment
+        append!(time,time_temp[seg_idx[i]]);
           append!(flux,sap_flux_temp[seg_idx[i]]);
   end
+
+
+end
 
